@@ -1,4 +1,5 @@
 using Api;
+using Core.Todos;
 using Core.Todos.Repos;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddMediatR(configuration =>
 {
-    configuration.RegisterServicesFromAssemblyContaining<Program>();
+    configuration.RegisterServicesFromAssembly(typeof(Todo).Assembly);
 
     configuration.NotificationPublisher = new MyNotificationPublisher();
     //configuration.AddBehavior<>()
