@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,12 +14,14 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        // MediatR configuration
         builder.Services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssemblyContaining<Program>();
             configuration.Lifetime = ServiceLifetime.Transient;
         });
 
+        // SQLite InMemory configuration
         var keepAliveConnection = new SqliteConnection("DataSource=:memory:");
         keepAliveConnection.Open();
 
@@ -26,6 +29,9 @@ public class Program
         {
             options.UseSqlite(keepAliveConnection);
         }, ServiceLifetime.Transient, ServiceLifetime.Transient);
+
+        // FluentValidation configuration
+        builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
         var app = builder.Build();
 

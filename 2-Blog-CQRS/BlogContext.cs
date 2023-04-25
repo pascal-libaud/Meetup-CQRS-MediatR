@@ -28,13 +28,22 @@ public static class Seeder
             Author = pascal,
             Title = "Quelles sont les nouveautés de .net 7 ?",
             Content = "blablabla",
+            Comments =
+            {
+                new Comment { Author = thomas, Content = "Très intéressant" }
+            }
         };
 
         var post2 = new Post
         {
             Author = nicolas,
             Title = "La Clean Architecture en 3 leçons",
-            Content = "Uncle Bob..."
+            Content = "Uncle Bob...",
+            Comments =
+            {
+                new Comment { Author = pascal, Content = "C'est passionnant" },
+                new Comment { Author = thomas, Content = "Intructif" }
+            }
         };
 
         var post3 = new Post
@@ -43,24 +52,6 @@ public static class Seeder
             Title = "Le TDD pour les nuls",
             Content = "Red Green Refactor and co"
         };
-
-        post1.Comments.Add(new Comment
-        {
-            Author = thomas,
-            Content = "Très intéressant"
-        });
-
-        post2.Comments.Add(new Comment
-        {
-            Author = pascal,
-            Content = "C'est passionnant"
-        });
-
-        post2.Comments.Add(new Comment
-        {
-            Author = thomas,
-            Content = "Intructif"
-        });
 
         context.Users.AddRange(pascal, nicolas, thomas);
         context.Posts.AddRange(post1, post2, post3);

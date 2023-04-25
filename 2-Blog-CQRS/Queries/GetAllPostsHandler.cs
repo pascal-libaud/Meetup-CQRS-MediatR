@@ -14,6 +14,8 @@ public class GetAllPostsHandler : IRequestHandler<GetAllPosts, PostDTO[]>
 
     public Task<PostDTO[]> Handle(GetAllPosts request, CancellationToken cancellationToken)
     {
-        return _context.Posts.Select(p => new PostDTO(p.Id, p.Title, p.Author.Name)).ToArrayAsync(cancellationToken);
+        return _context.Posts
+            .Select(p => new PostDTO(p.Id, p.Title, p.Author.Name))
+            .ToArrayAsync(cancellationToken);
     }
 }

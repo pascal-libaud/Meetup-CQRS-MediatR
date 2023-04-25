@@ -15,10 +15,19 @@ public class GetDetailedPostHandler : IRequestHandler<GetDetailedPost, PostDetai
 
     public async Task<PostDetailDTO> Handle(GetDetailedPost request, CancellationToken cancellationToken)
     {
-        var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
+        var post = await _context.Posts
+            .Include(p => p.Author)
+            .Include(p => p.Comments)
+                .ThenInclude(c => c.Author)
+            .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
+
         if (post == null)
             throw new NotFoundException();
 
-        return new PostDetailDTO(post.Title, post.Author.Name, post.Content, post.Comments.Select(c => new CommentDTO(c.Content, c.Author.Name)).ToArray());
+        return new PostDetailDTO(
+            post.Title,
+            post.Author.Name,
+            post.Content,
+            post.Comments.Select(c => new CommentDTO(c.Content, c.Author.Name)).ToArray());
     }
 }
