@@ -1,4 +1,3 @@
-
 namespace _2_Blog_CQRS;
 
 public class Program

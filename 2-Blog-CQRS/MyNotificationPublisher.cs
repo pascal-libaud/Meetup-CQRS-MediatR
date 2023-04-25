@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Api;
+namespace _2_Blog_CQRS;
 
 public class MyNotificationPublisher : INotificationPublisher
 {
