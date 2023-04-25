@@ -1,3 +1,6 @@
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+
 namespace _2_Blog_CQRS;
 
 public class Program
@@ -6,16 +9,26 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
-
         builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.Services.AddMediatR(configuration =>
+        {
+            configuration.RegisterServicesFromAssemblyContaining<Program>();
+            configuration.Lifetime = ServiceLifetime.Transient;
+        });
+
+        var keepAliveConnection = new SqliteConnection("DataSource=:memory:");
+        keepAliveConnection.Open();
+
+        builder.Services.AddDbContext<BlogContext>(options =>
+        {
+            options.UseSqlite(keepAliveConnection);
+        }, ServiceLifetime.Transient, ServiceLifetime.Transient);
+
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
@@ -23,11 +36,14 @@ public class Program
         }
 
         app.UseHttpsRedirection();
-
         app.UseAuthorization();
-
-
         app.MapControllers();
+
+        app.UseCustomExceptionHandler();
+
+        var blogContext = app.Services.GetService<BlogContext>()!;
+        blogContext.Database.Migrate();
+        Seeder.Seed(blogContext);
 
         app.Run();
     }

@@ -18,13 +18,13 @@ public class TodoController
     }
 
     [HttpGet]
-    public Task<Todo[]> Get()
+    public Task<Todo[]> GetAll()
     {
         return _mediator.Send(new GetAllTodos());
     }
 
     [HttpGet("{id}")]
-    public Task<Todo> GetOne(int id)
+    public Task<Todo> Get(int id)
     {
         return _mediator.Send(new GetTodo(id));
     }
