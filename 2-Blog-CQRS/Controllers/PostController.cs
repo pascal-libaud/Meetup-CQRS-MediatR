@@ -1,4 +1,4 @@
-using _2_Blog_CQRS.Commands;
+using _2_Blog_CQRS.Commands.Posts;
 using _2_Blog_CQRS.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

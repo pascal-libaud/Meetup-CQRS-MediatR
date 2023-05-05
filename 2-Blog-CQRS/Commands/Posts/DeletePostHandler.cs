@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace _2_Blog_CQRS.Commands;
+namespace _2_Blog_CQRS.Commands.Posts;
 
 public class DeletePostHandler : IRequestHandler<DeletePost>
 {

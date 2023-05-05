@@ -1,3 +1,4 @@
+using _2_Blog_CQRS.Commands.Users;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,21 +15,21 @@ public class UserController : ControllerBase
         _mediator = mediator;
     }
 
-    //[HttpPost]
-    //public Task CreateUser()
-    //{
+    [HttpPost]
+    public Task<int> CreateUser([FromBody] CreateUser createUser)
+    {
+        return _mediator.Send(createUser);
+    }
 
-    //}
+    [HttpPatch("{id}")]
+    public Task RenameUser(int id, [FromBody] RenameUser renameUser)
+    {
+        return _mediator.Send(renameUser with { Id = id }); // TODO Discuter de ce code ?!
+    }
 
-    //[HttpPatch("{id}")]
-    //public Task SetIsDone(int id)
-    //{
-    //    return _mediator.Send(new SetIsDone(id));
-    //}
-
-    //[HttpDelete("{id}")]
-    //public Task Delete(int id)
-    //{
-    //    return _mediator.Send(new DeleteTodo(id));
-    //}
+    [HttpDelete("{id}")]
+    public Task DeleteUser(int id)
+    {
+        return _mediator.Send(new DeleteUser(id));
+    }
 }
