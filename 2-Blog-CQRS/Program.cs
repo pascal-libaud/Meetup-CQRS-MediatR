@@ -47,6 +47,7 @@ public class Program
 
         app.UseCustomExceptionHandler();
 
+        // Seed the Database
         var blogContext = app.Services.GetService<BlogContext>()!;
         blogContext.Database.Migrate();
         Seeder.Seed(blogContext);

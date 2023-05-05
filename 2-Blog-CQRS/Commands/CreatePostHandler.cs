@@ -13,9 +13,18 @@ public class CreatePostHandler : IRequestHandler<CreatePost>
         _context = context;
     }
 
-    public Task Handle(CreatePost request, CancellationToken cancellationToken)
+    public async Task Handle(CreatePost request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var author = await _context.Users.FirstAsync(x => x.Name == request.Author, cancellationToken);
+        var post = new Post
+        {
+            Author = author,
+            Title = request.Title,
+            Content = request.Content,
+        };
+
+        _context.Posts.Add(post);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }
 
