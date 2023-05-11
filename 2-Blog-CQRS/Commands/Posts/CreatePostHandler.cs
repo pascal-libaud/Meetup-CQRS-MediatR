@@ -15,10 +15,10 @@ public class CreatePostHandler : IRequestHandler<CreatePost>
 
     public async Task Handle(CreatePost request, CancellationToken cancellationToken)
     {
-        var author = await _context.Users.FirstAsync(x => x.Name == request.Author, cancellationToken);
+        var author = await _context.Users.FirstOrDefaultAsync(x => x.Name == request.Author, cancellationToken);
         var post = new Post
         {
-            Author = author,
+            Author = author, // TODO Pascal
             Title = request.Title,
             Content = request.Content,
         };
@@ -30,10 +30,9 @@ public class CreatePostHandler : IRequestHandler<CreatePost>
 
 public sealed class CreatePostValidator : AbstractValidator<CreatePost>
 {
-    public CreatePostValidator(BlogContext context)
+    public CreatePostValidator()
     {
         RuleFor(p => p.Title).MinimumLength(5).MaximumLength(255);
         RuleFor(p => p.Content).MinimumLength(30);
-        RuleFor(p => p.Author).MustAsync((author, cancellationToken) => context.Users.AnyAsync(u => u.Name == author, cancellationToken));
     }
 }

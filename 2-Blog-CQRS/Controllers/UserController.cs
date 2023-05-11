@@ -22,9 +22,9 @@ public class UserController : ControllerBase
     }
 
     [HttpPatch("{id}")]
-    public Task RenameUser(int id, [FromBody] RenameUser renameUser)
+    public Task RenameUser(int id, [FromBody] PatchUser renameUser)
     {
-        return _mediator.Send(renameUser with { Id = id }); // TODO Discuter de ce code ?!
+        return _mediator.Send(new RenameUser(id, renameUser.Name));
     }
 
     [HttpDelete("{id}")]
@@ -33,3 +33,5 @@ public class UserController : ControllerBase
         return _mediator.Send(new DeleteUser(id));
     }
 }
+
+public record PatchUser(string Name);

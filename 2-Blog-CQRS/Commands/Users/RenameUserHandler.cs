@@ -16,13 +16,14 @@ public class RenameUserHandler : IRequestHandler<RenameUser>
     public async Task Handle(RenameUser request, CancellationToken cancellationToken)
     {
         // TODO Comment valider qu'on le retrouve bien ici ? Car la bdd a pu changer depuis la validation
-        (await _context.Users.FirstAsync(u => u.Id == request.Id, cancellationToken: cancellationToken)).Name = request.Name;
+        (await _context.Users.FirstAsync(u => u.Id == request.Id, cancellationToken)).Name = request.Name;
         await _context.SaveChangesAsync(cancellationToken);
     }
 }
 
 public sealed class RenameUserValidator : AbstractValidator<RenameUser>
 {
+    // TODO Retirer BlogContext des Validateurs
     public RenameUserValidator(BlogContext context)
     {
         RuleFor(p => p.Name).MinimumLength(2).MaximumLength(255);

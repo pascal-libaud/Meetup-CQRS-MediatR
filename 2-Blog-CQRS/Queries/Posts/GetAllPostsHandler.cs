@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace _2_Blog_CQRS.Queries;
+namespace _2_Blog_CQRS.Queries.Posts;
 
 public class GetAllPostsHandler : IRequestHandler<GetAllPosts, PostDTO[]>
 {

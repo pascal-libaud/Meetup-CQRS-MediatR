@@ -27,6 +27,9 @@ public sealed class CreateUserValidator : AbstractValidator<CreateUser>
     public CreateUserValidator(BlogContext context)
     {
         RuleFor(p => p.Name).MinimumLength(2).MaximumLength(255);
+        // TODO : Parler du fait de créer une query pour vérifier de l'existence d'un user en base de données
+        // on factorise le code et on ne mélange pas le quoi avec le comment
+        // on utilise MediatR
         RuleFor(p => p.Name).MustAsync((name, cancellationToken) => context.Users.AllAsync(u => u.Name != name, cancellationToken));
     }
 }
