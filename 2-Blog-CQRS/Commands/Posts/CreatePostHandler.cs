@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using _2_Blog_CQRS.Common;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,9 +17,12 @@ public class CreatePostHandler : IRequestHandler<CreatePost>
     public async Task Handle(CreatePost request, CancellationToken cancellationToken)
     {
         var author = await _context.Users.FirstOrDefaultAsync(x => x.Name == request.Author, cancellationToken);
+        if (author == null)
+            throw new NotFoundException();
+
         var post = new Post
         {
-            Author = author, // TODO Pascal
+            Author = author,
             Title = request.Title,
             Content = request.Content,
         };

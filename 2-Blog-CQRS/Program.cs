@@ -1,6 +1,5 @@
 using _2_Blog_CQRS.Pipelines;
 using FluentValidation;
-using MediatR;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,10 +20,12 @@ public class Program
         {
             configuration.RegisterServicesFromAssemblyContaining<Program>();
             configuration.Lifetime = ServiceLifetime.Transient;
-        })
+
             // TODO: Quel type de service pour les pipelines (Scoped, Singleton, Transient) ?
-            .AddScoped(typeof(IPipelineBehavior<,>), typeof(PerformancePipeline<,>))
-            .AddScoped(typeof(IPipelineBehavior<,>), typeof(RetryPipeline<,>));
+            // Pascal : j'ai changé le code pour utiliser la conf fournie par MediatR et on devrait garder la valeur par défaut Transient.
+            configuration.AddOpenBehavior(typeof(PerformancePipeline<,>));
+            configuration.AddOpenBehavior(typeof(RetryPipeline<,>));
+        });
 
         // SQLite InMemory configuration
         var keepAliveConnection = new SqliteConnection("DataSource=:memory:");

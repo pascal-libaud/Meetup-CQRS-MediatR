@@ -1,32 +1,31 @@
 ﻿using MediatR;
 using System.Diagnostics;
 
-namespace _2_Blog_CQRS.Pipelines
+namespace _2_Blog_CQRS.Pipelines;
+
+public class PerformancePipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
-    public class PerformancePipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    private readonly ILogger<PerformancePipeline<TRequest, TResponse>> _logger;
+
+    public PerformancePipeline(ILogger<PerformancePipeline<TRequest, TResponse>> logger)
     {
-        private readonly ILogger<PerformancePipeline<TRequest, TResponse>> _logger;
+        _logger = logger;
+    }
 
-        public PerformancePipeline(ILogger<PerformancePipeline<TRequest, TResponse>> logger)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    {
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
+
+        try
         {
-            this._logger = logger;
+            return await next();
         }
-
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        finally
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
 
-            try
-            {
-                return await next();
-            }
-            finally
-            {
-
-                stopwatch.Stop();
-                _logger.LogInformation($"Handled {typeof(TRequest).Name} in {stopwatch.ElapsedMilliseconds}ms");
-            }
+            stopwatch.Stop();
+            _logger.LogInformation($"Handled {typeof(TRequest).Name} in {stopwatch.ElapsedMilliseconds}ms");
         }
     }
 }
