@@ -5,4 +5,4 @@
 /.vs
 */bin/*
 */obj/*
-*/*.user
+*.user
