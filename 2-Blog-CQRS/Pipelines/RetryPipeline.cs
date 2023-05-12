@@ -5,7 +5,7 @@ using System.Reflection;
 namespace _2_Blog_CQRS.Pipelines;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
-public class RetryPolicy: Attribute
+public class RetryPolicy : Attribute
 {
     private int _retryCount = 5;
     private int _retryDelay = 500;
@@ -36,6 +36,7 @@ public class RetryPolicy: Attribute
         }
     }
 }
+
 public class RetryPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
     private readonly ILogger<RetryPipeline<TRequest, TResponse>> _logger;

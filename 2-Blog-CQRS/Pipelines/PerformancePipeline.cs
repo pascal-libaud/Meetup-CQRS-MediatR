@@ -23,7 +23,6 @@ public class PerformancePipeline<TRequest, TResponse> : IPipelineBehavior<TReque
         }
         finally
         {
-
             stopwatch.Stop();
             _logger.LogInformation($"Handled {typeof(TRequest).Name} in {stopwatch.ElapsedMilliseconds}ms");
         }

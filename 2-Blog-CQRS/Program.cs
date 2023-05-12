@@ -25,6 +25,7 @@ public class Program
             // Pascal : j'ai changé le code pour utiliser la conf fournie par MediatR et on devrait garder la valeur par défaut Transient.
             configuration.AddOpenBehavior(typeof(PerformancePipeline<,>));
             configuration.AddOpenBehavior(typeof(RetryPipeline<,>));
+            configuration.AddOpenBehavior(typeof(FluentValidationPipeline<,>));
         });
 
         // SQLite InMemory configuration
