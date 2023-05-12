@@ -1,18 +1,17 @@
+using _2_Blog_CQRS.Queries.Posts;
+
 namespace _3_Test;
 
-public class UnitTest1
+public class UnitTest1 : TestBase
 {
+    public UnitTest1(BlogWebAppFactory factory) : base(factory)
+    { }
+
     [Fact]
-    public void Test1()
+    public async Task Test1()
     {
+        var posts = await _mediator.Send(new GetAllPosts());
 
-    }
-}
-
-public class TestBase
-{
-    static TestBase()
-    {
-
+        posts.Length.Should().Be(3);
     }
 }
