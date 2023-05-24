@@ -21,10 +21,11 @@ public class Program
             configuration.RegisterServicesFromAssemblyContaining<Program>();
             configuration.Lifetime = ServiceLifetime.Transient;
 
-            // TODO: Quel type de service pour les pipelines (Scoped, Singleton, Transient) ?
-            // Pascal : j'ai changé le code pour utiliser la conf fournie par MediatR et on devrait garder la valeur par défaut Transient.
             configuration.AddOpenBehavior(typeof(PerformancePipeline<,>));
+            configuration.AddOpenBehavior(typeof(TransactionPipeline<,>)); // TODO Vérifier et valider l'ordre des pipelines
             configuration.AddOpenBehavior(typeof(RetryPipeline<,>));
+
+            // Possibilité d'utiliser directement le package nuget MediatR.Extensions.FluentValidation.AspNetCore
             configuration.AddOpenBehavior(typeof(FluentValidationPipeline<,>));
         });
 
