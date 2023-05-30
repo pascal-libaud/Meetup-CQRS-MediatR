@@ -14,6 +14,7 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddMemoryCache();
 
         // MediatR configuration
         builder.Services.AddMediatR(configuration =>
@@ -22,6 +23,7 @@ public class Program
             configuration.Lifetime = ServiceLifetime.Transient;
 
             configuration.AddOpenBehavior(typeof(PerformancePipeline<,>));
+            configuration.AddOpenBehavior(typeof(MemoryCachePipeline<,>));
             configuration.AddOpenBehavior(typeof(TransactionPipeline<,>)); // TODO Vérifier et valider l'ordre des pipelines
             configuration.AddOpenBehavior(typeof(RetryPipeline<,>));
 
