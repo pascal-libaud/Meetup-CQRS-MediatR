@@ -34,9 +34,17 @@ public class PostController : ControllerBase
         return _mediator.Send(createPost);
     }
 
+    [HttpPatch("{id}")]
+    public Task PatchPost(int id, [FromBody] PatchPost updatePost)
+    {
+        return _mediator.Send(new UpdatePost(id, updatePost.Title, updatePost.Content));
+    }
+
     [HttpDelete]
     public Task Delete(int id)
     {
         return _mediator.Send(new DeletePost(id));
     }
 }
+
+public record PatchPost(string Title, string Content);

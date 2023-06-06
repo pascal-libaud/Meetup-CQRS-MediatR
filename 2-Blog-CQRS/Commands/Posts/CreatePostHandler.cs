@@ -32,7 +32,7 @@ public class CreatePostHandler : IRequestHandler<CreatePost>
     }
 }
 
-public sealed class CreatePostValidator : AbstractValidator<CreatePost>
+public class CreatePostValidator : AbstractValidator<CreatePost>
 {
     public CreatePostValidator()
     {

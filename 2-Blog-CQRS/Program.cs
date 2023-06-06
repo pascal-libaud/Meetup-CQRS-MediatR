@@ -22,11 +22,12 @@ public class Program
             configuration.Lifetime = ServiceLifetime.Transient;
 
             configuration.AddOpenBehavior(typeof(PerformancePipeline<,>));
-            configuration.AddOpenBehavior(typeof(TransactionPipeline<,>)); // TODO Vérifier et valider l'ordre des pipelines
-            configuration.AddOpenBehavior(typeof(RetryPipeline<,>));
 
             // Possibilité d'utiliser directement le package nuget MediatR.Extensions.FluentValidation.AspNetCore
             configuration.AddOpenBehavior(typeof(FluentValidationPipeline<,>));
+
+            configuration.AddOpenBehavior(typeof(RetryPipeline<,>));
+            configuration.AddOpenBehavior(typeof(TransactionPipeline<,>));
         });
 
         // SQLite InMemory configuration
