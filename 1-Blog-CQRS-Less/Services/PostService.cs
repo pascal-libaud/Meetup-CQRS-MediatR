@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using _1_Blog_CQRS_Less.Models;
 
 namespace _1_Blog_CQRS_Less.Services;
 

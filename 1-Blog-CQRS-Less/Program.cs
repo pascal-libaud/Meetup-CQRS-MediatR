@@ -1,4 +1,7 @@
 
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+
 namespace _1_Blog_CQRS_Less;
 
 public class Program
@@ -13,6 +16,15 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        // SQLite InMemory configuration
+        var keepAliveConnection = new SqliteConnection("DataSource=:memory:");
+        keepAliveConnection.Open();
+
+        builder.Services.AddDbContext<BlogContext>(options =>
+        {
+            options.UseSqlite(keepAliveConnection);
+        }, ServiceLifetime.Transient, ServiceLifetime.Transient);
 
         var app = builder.Build();
 

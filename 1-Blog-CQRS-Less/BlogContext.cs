@@ -1,5 +1,4 @@
-﻿using _1_Blog_CQRS_Less.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace _1_Blog_CQRS_Less;
 
@@ -13,7 +12,7 @@ public class BlogContext : DbContext
 
     public DbSet<User> Users { get; set; }
 
-    public DbSet<Comment> Comments { get; set; }
+    public DbSet<Comments> Comments { get; set; }
 }
 
 public static class Seeder
@@ -45,19 +44,19 @@ public static class Seeder
             Content = "Red Green Refactor and co"
         };
 
-        post1.Comments.Add(new Comment
+        post1.Comments.Add(new Comments
         {
             Author = thomas,
             Content = "Très intéressant"
         });
 
-        post2.Comments.Add(new Comment
+        post2.Comments.Add(new Comments
         {
             Author = pascal,
             Content = "C'est passionnant"
         });
 
-        post2.Comments.Add(new Comment
+        post2.Comments.Add(new Comments
         {
             Author = thomas,
             Content = "Intructif"

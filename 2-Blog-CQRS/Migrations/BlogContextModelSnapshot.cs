@@ -16,7 +16,7 @@ namespace _2_Blog_CQRS.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
 
-            modelBuilder.Entity("_2_Blog_CQRS.Models.Comment", b =>
+            modelBuilder.Entity("_2_Blog_CQRS.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -28,6 +28,9 @@ namespace _2_Blog_CQRS.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("PostId")
                         .HasColumnType("INTEGER");
@@ -41,7 +44,7 @@ namespace _2_Blog_CQRS.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("_2_Blog_CQRS.Models.Post", b =>
+            modelBuilder.Entity("_2_Blog_CQRS.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,6 +57,9 @@ namespace _2_Blog_CQRS.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -65,10 +71,13 @@ namespace _2_Blog_CQRS.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("_2_Blog_CQRS.Models.User", b =>
+            modelBuilder.Entity("_2_Blog_CQRS.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -80,15 +89,15 @@ namespace _2_Blog_CQRS.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("_2_Blog_CQRS.Models.Comment", b =>
+            modelBuilder.Entity("_2_Blog_CQRS.Comment", b =>
                 {
-                    b.HasOne("_2_Blog_CQRS.Models.User", "Author")
+                    b.HasOne("_2_Blog_CQRS.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("_2_Blog_CQRS.Models.Post", "Post")
+                    b.HasOne("_2_Blog_CQRS.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -99,9 +108,9 @@ namespace _2_Blog_CQRS.Migrations
                     b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("_2_Blog_CQRS.Models.Post", b =>
+            modelBuilder.Entity("_2_Blog_CQRS.Post", b =>
                 {
-                    b.HasOne("_2_Blog_CQRS.Models.User", "Author")
+                    b.HasOne("_2_Blog_CQRS.User", "Author")
                         .WithMany("Posts")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -110,12 +119,12 @@ namespace _2_Blog_CQRS.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("_2_Blog_CQRS.Models.Post", b =>
+            modelBuilder.Entity("_2_Blog_CQRS.Post", b =>
                 {
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("_2_Blog_CQRS.Models.User", b =>
+            modelBuilder.Entity("_2_Blog_CQRS.User", b =>
                 {
                     b.Navigation("Posts");
                 });

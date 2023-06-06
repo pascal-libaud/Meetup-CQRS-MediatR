@@ -1,4 +1,4 @@
-﻿namespace _2_Blog_CQRS;
+﻿namespace _1_Blog_CQRS_Less;
 
 public class Post
 {
@@ -8,7 +8,7 @@ public class Post
     public string Content { get; set; }
     public bool IsDeleted { get; set; }
 
-    public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    public ICollection<Comments> Comments { get; set; } = new List<Comments>();
 }
 
 public class User
@@ -20,7 +20,7 @@ public class User
     public ICollection<Post> Posts { get; set; }
 }
 
-public class Comment
+public class Comments
 {
     public int Id { get; set; }
     public Post Post { get; set; }
