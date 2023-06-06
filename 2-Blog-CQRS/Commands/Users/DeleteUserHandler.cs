@@ -31,6 +31,6 @@ public sealed class DeleteUserValidator : AbstractValidator<DeleteUser>
 {
     public DeleteUserValidator(BlogContext context)
     {
-        RuleFor(p => p.Id).MustAsync((id, cancellationToken) => context.Users.AnyAsync(u => u.Id == id, cancellationToken));
+        RuleFor(p => p.Id).Must(id => context.Users.Any(u => u.Id == id));
     }
 }

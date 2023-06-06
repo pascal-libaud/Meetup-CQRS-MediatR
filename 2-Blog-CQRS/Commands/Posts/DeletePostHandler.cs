@@ -23,6 +23,6 @@ public sealed class DeletePostValidator : AbstractValidator<DeletePost>
 {
     public DeletePostValidator(BlogContext context)
     {
-        RuleFor(d => d.Id).MustAsync((id, cancellationToken) => context.Posts.AnyAsync(p => p.Id == id, cancellationToken));
+        RuleFor(d => d.Id).Must(id => context.Posts.Any(p => p.Id == id));
     }
 }

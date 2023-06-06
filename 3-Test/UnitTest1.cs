@@ -10,7 +10,7 @@ public class UnitTest1 : TestBase
     [Fact]
     public async Task Test1()
     {
-        var posts = await _mediator.Send(new GetAllPosts());
+        var posts = await GetMediator().Send(new GetAllPosts());
 
         posts.Length.Should().Be(3);
     }
