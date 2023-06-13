@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using _2_Blog_CQRS.Helpers;
+using FluentValidation;
 using MediatR;
 
 namespace _2_Blog_CQRS.Pipelines;
@@ -13,16 +14,16 @@ public class FluentValidationPipeline<TRequest, TResponse> : IPipelineBehavior<T
         _validators = validators;
     }
 
-    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var failures = _validators.Select(v => v.Validate(request))
-            .SelectMany(result => result.Errors)
-            .Where(f => f != null)
-            .ToList();
+        var failures = await _validators.SelectAsync(async v => await v.ValidateAsync(request, cancellationToken))
+            .SelectManyAsync(result => result.Errors)
+            .WhereAsync(f => f != null)
+            .ToListAsync();
 
         if (failures.Any())
             throw new ValidationException(failures);
 
-        return next();
+        return await next();
     }
 }
