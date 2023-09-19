@@ -21,13 +21,10 @@ public class Program
         {
             configuration.RegisterServicesFromAssemblyContaining<Program>();
             configuration.Lifetime = ServiceLifetime.Transient;
-
+            
             configuration.AddOpenBehavior(typeof(PerformancePipeline<,>));
             configuration.AddOpenBehavior(typeof(MemoryCachePipeline<,>));
-
-            // Possibilité d'utiliser directement le package nuget MediatR.Extensions.FluentValidation.AspNetCore
             configuration.AddOpenBehavior(typeof(FluentValidationPipeline<,>));
-
             configuration.AddOpenBehavior(typeof(RetryPipeline<,>));
             configuration.AddOpenBehavior(typeof(TransactionPipeline<,>));
         });
@@ -42,7 +39,7 @@ public class Program
         }, ServiceLifetime.Transient, ServiceLifetime.Transient);
 
         // FluentValidation configuration
-        builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+        builder.Services.AddValidatorsFromAssemblyContaining<Program>(ServiceLifetime.Transient);
 
         var app = builder.Build();
 

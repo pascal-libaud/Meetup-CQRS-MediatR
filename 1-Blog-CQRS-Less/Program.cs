@@ -1,17 +1,13 @@
-
 using _1_Blog_CQRS_Less.Helpers;
 using _1_Blog_CQRS_Less.Services;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
-using FluentValidation.AspNetCore;
-using Microsoft.Extensions.Configuration;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Enums;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Results;
-using Microsoft.Extensions.Options;
 
 namespace _1_Blog_CQRS_Less;
 
@@ -80,7 +76,6 @@ public class Program
         app.Run();
     }
 }
-
 
 public class CustomResultFactory : IFluentValidationAutoValidationResultFactory
 {

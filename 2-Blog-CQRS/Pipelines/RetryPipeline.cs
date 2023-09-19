@@ -7,34 +7,8 @@ namespace _2_Blog_CQRS.Pipelines;
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
 public class RetryPolicy : Attribute
 {
-    private int _retryCount = 5;
-    private int _retryDelay = 500;
-
-    public int RetryCount
-    {
-        get => _retryCount;
-        set
-        {
-            if (value < 1)
-            {
-                throw new ArgumentException("Retry count must be at least 1", nameof(value));
-            }
-            _retryCount = value;
-        }
-    }
-
-    public int RetryDelay
-    {
-        get => _retryDelay;
-        set
-        {
-            if (value < 1)
-            {
-                throw new ArgumentException("Retry delay must be at least 1ms", nameof(value));
-            }
-            _retryDelay = value;
-        }
-    }
+    public int RetryCount { get; set; } = 5;
+    public int RetryDelay { get; set; } = 500;
 }
 
 public class RetryPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
@@ -51,16 +25,19 @@ public class RetryPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TR
         var retryPolicy = typeof(TRequest).GetCustomAttribute<RetryPolicy>();
 
         if (retryPolicy == null)
-        {
             return await next();
-        }
+
+        Func<int, TimeSpan> sleepDurationProvider = i => TimeSpan.FromMilliseconds(i * retryPolicy.RetryDelay);
 
         return await Policy.Handle<Exception>()
-            .WaitAndRetryAsync(
-                retryPolicy.RetryCount,
-                i => TimeSpan.FromMilliseconds(i * retryPolicy.RetryDelay),
-                (exception, timespan, _) => _logger.LogWarning(exception, $"Failed to execute handler for {typeof(TRequest).Name}, retrying after {timespan.TotalSeconds}s ({exception.Message})")
-            )
+            .WaitAndRetryAsync(retryPolicy.RetryCount, sleepDurationProvider, OnRetry)
             .ExecuteAsync(async () => await next());
     }
+
+    private void OnRetry(Exception exception, TimeSpan timespan, Context _)
+    {
+        string message = $"Failed to execute handler for {typeof(TRequest).Name}, retrying after {timespan.TotalSeconds}s ({exception.Message})";
+        _logger.LogWarning(exception, message);
+    }
+
 }

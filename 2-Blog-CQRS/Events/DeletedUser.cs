@@ -20,5 +20,10 @@ public class DeletedUserHandler : INotificationHandler<DeletedUser>
             .Posts
             .Where(p => p.Author.Id == notification.UserId)
             .ExecuteUpdateAsync(x => x.SetProperty(p => p.IsDeleted, p => true), cancellationToken);
+
+        await _context
+            .Comments
+            .Where(c => c.Author.Id == notification.UserId)
+            .ExecuteUpdateAsync(x => x.SetProperty(c => c.IsDeleted, p => true), cancellationToken);
     }
 }

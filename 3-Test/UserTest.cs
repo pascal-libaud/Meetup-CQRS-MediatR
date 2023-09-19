@@ -28,16 +28,17 @@ public class UserTest : TestBase
             }
         };
 
-        var context = GetContext();
+        var context = GetDbContext();
 
         await context.Users.AddRangeAsync(musk, dev);
         await context.Posts.AddAsync(post);
         await context.SaveChangesAsync();
 
         // ACT
-        await GetMediator().Send(new DeleteUser(dev.Id)); // TODO J'ai une erreur à l'exécution ici
+        await GetMediator().Send(new DeleteUser(dev.Id));
 
         // ASSERT
+        context = GetDbContext();
         var devComments = await context.Comments.Where(c => c.Author.Id == dev.Id).ToListAsync();
         devComments.Should().NotBeNullOrEmpty();
         devComments.Should().AllSatisfy(c => c.IsDeleted.Should().BeTrue());

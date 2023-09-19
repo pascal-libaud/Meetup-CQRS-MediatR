@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace _2_Blog_CQRS.Commands.Users;
 
