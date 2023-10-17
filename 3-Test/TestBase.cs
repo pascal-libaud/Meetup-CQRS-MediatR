@@ -7,6 +7,7 @@ namespace _3_Test;
 public abstract class TestBase : IClassFixture<BlogWebAppFactory>
 {
     private readonly BlogWebAppFactory _factory;
+    protected readonly HttpClient _httpClient;
 
     protected IMediator GetMediator()
     {
@@ -21,6 +22,6 @@ public abstract class TestBase : IClassFixture<BlogWebAppFactory>
     protected TestBase(BlogWebAppFactory factory)
     {
         _factory = factory;
-        factory.CreateClient();
+        _httpClient = factory.CreateClient();
     }
 }

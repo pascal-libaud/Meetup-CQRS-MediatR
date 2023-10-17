@@ -3,7 +3,8 @@ using System.Diagnostics;
 
 namespace _2_Blog_CQRS.Pipelines;
 
-public class PerformancePipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class PerformancePipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : notnull
 {
     private readonly ILogger<PerformancePipeline<TRequest, TResponse>> _logger;
 
@@ -14,8 +15,7 @@ public class PerformancePipeline<TRequest, TResponse> : IPipelineBehavior<TReque
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var stopwatch = new Stopwatch();
-        stopwatch.Start();
+        var stopwatch = Stopwatch.StartNew();
 
         try
         {

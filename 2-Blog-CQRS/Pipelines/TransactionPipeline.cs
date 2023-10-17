@@ -3,7 +3,8 @@ using MediatR;
 
 namespace _2_Blog_CQRS.Pipelines;
 
-public class TransactionPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class TransactionPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
+    where TRequest : notnull
 {
     private readonly BlogContext _context;
 

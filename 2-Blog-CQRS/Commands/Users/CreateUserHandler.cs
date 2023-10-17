@@ -23,12 +23,8 @@ public class CreateUserHandler : IRequestHandler<CreateUser, int>
 
 public sealed class CreateUserValidator : AbstractValidator<CreateUser>
 {
-    public CreateUserValidator(BlogContext context)
+    public CreateUserValidator()
     {
         RuleFor(p => p.Name).MinimumLength(2).MaximumLength(255);
-        // TODO : Parler du fait de créer une query pour vérifier de l'existence d'un user en base de données
-        // on factorise le code et on ne mélange pas le quoi avec le comment
-        // on utilise MediatR
-        RuleFor(p => p.Name).Must(name => context.Users.All(u => u.Name != name));
     }
 }

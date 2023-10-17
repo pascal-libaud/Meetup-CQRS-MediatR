@@ -17,14 +17,14 @@ public class MemoryCachePipeline<TRequest, TResponse> : IPipelineBehavior<TReque
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         if (request is not IQuery<TResponse>)
-        {
             return await next();
-        }
+
         if (!_memoryCache.TryGetValue(request, out TResponse? result))
         {
             result = await next();
             _memoryCache.Set(request, result, new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(60)));
         }
+
         return result!;
     }
 }

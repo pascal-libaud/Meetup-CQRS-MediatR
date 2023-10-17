@@ -21,7 +21,9 @@ public class Program
         {
             configuration.RegisterServicesFromAssemblyContaining<Program>();
             configuration.Lifetime = ServiceLifetime.Transient;
-            
+
+            configuration.NotificationPublisherType = typeof(MyNotificationPublisher);
+
             configuration.AddOpenBehavior(typeof(PerformancePipeline<,>));
             configuration.AddOpenBehavior(typeof(MemoryCachePipeline<,>));
             configuration.AddOpenBehavior(typeof(FluentValidationPipeline<,>));
@@ -51,9 +53,10 @@ public class Program
 
         app.UseHttpsRedirection();
         app.UseAuthorization();
-        app.MapControllers();
 
         app.UseCustomExceptionHandler();
+
+        app.MapControllers();
 
         // Seed the Database
         var blogContext = app.Services.GetService<BlogContext>()!;

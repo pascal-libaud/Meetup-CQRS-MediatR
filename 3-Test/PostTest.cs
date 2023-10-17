@@ -2,7 +2,6 @@ using _2_Blog_CQRS;
 using _2_Blog_CQRS.Commands.Posts;
 using _2_Blog_CQRS.Queries.Posts;
 using FluentValidation;
-using FluentValidation.Results;
 
 namespace _3_Test;
 
@@ -30,9 +29,22 @@ public class PostTest : TestBase
     {
         var createPost = () => GetMediator().Send(new CreatePost("Ada", LoremIpsum, "Pascal"));
 
-        (await createPost.Should().ThrowAsync<ValidationException>())
-            .And
-            .Errors.Should().BeEquivalentTo(new List<ValidationFailure> { new(nameof(Post.Title), "") },
-                opt => opt.ExcludingFields().Including(x => x.PropertyName));
+        var exception = (await createPost.Should().ThrowAsync<ValidationException>()).And;
+        var errors = exception.Errors.ToList();
+
+        errors.Count.Should().Be(1);
+        errors[0].PropertyName.Should().Be(nameof(Post.Title));
+    }
+
+    [Fact]
+    public async Task When_I_try_to_update_a_post_with_a_too_short_title_then_I_got_an_error()
+    {
+        var createPost = () => GetMediator().Send(new UpdatePost(1, "Ada", LoremIpsum));
+
+        var exception = (await createPost.Should().ThrowAsync<ValidationException>()).And;
+        var errors = exception.Errors.ToList();
+
+        errors.Count.Should().Be(1);
+        errors[0].PropertyName.Should().Be(nameof(Post.Title));
     }
 }

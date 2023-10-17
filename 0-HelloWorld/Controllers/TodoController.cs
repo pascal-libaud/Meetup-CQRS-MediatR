@@ -29,6 +29,12 @@ public class TodoController
         return _mediator.Send(new GetTodo(id));
     }
 
+    [HttpPost]
+    public Task Create([FromBody] CreateTodo command)
+    {
+        return _mediator.Send(command);
+    }
+
     [HttpPatch("{id}")]
     public Task SetIsDone(int id)
     {

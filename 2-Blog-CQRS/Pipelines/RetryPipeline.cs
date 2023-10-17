@@ -11,7 +11,8 @@ public class RetryPolicy : Attribute
     public int RetryDelay { get; set; } = 500;
 }
 
-public class RetryPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class RetryPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : notnull
 {
     private readonly ILogger<RetryPipeline<TRequest, TResponse>> _logger;
 
@@ -39,5 +40,4 @@ public class RetryPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TR
         string message = $"Failed to execute handler for {typeof(TRequest).Name}, retrying after {timespan.TotalSeconds}s ({exception.Message})";
         _logger.LogWarning(exception, message);
     }
-
 }
