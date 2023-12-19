@@ -1,4 +1,4 @@
-using _2_Blog_CQRS.Commands.Users;
+using _2_Blog_CQRS.Domain.Users.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

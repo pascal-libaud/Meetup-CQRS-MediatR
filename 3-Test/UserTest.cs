@@ -1,5 +1,5 @@
 using _2_Blog_CQRS;
-using _2_Blog_CQRS.Commands.Users;
+using _2_Blog_CQRS.Domain.Users.Commands;
 using Microsoft.EntityFrameworkCore;
 
 namespace _3_Test;

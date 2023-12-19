@@ -1,10 +1,8 @@
-﻿using _1_Blog_CQRS_Less.Models;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace _1_Blog_CQRS_Less.Services;
 
-
-public class CreatePostValidator : AbstractValidator<CreatePost>
+public class CreatePostValidator : AbstractValidator<PostDTO>
 {
     public CreatePostValidator()
     {

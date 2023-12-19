@@ -19,8 +19,8 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddTransient<PerfHelper>();
-        builder.Services.AddTransient<IPostService, PostService>();
-        builder.Services.AddTransient<IUserService, UserService>();
+        builder.Services.AddTransient<PostService>();
+        builder.Services.AddTransient<UserService>();
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,6 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
-using _2_Blog_CQRS.Commands.Posts;
+using _2_Blog_CQRS.Domain.Posts.Commands;
 
 namespace _3_Test;
 

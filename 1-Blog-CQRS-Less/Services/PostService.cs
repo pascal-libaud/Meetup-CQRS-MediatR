@@ -1,11 +1,11 @@
 ﻿using _1_Blog_CQRS_Less.Common;
 using _1_Blog_CQRS_Less.Helpers;
-using _1_Blog_CQRS_Less.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace _1_Blog_CQRS_Less.Services;
 
-public class PostService : IPostService
+public class PostService
 {
     private readonly BlogContext _context;
     private readonly PerfHelper _perfHelper;
@@ -18,14 +18,17 @@ public class PostService : IPostService
         _logger = logger;
     }
 
+    [HttpGet]
     public async Task<PostDTO[]> GetPosts(CancellationToken cancellationToken)
     {
         return await _context.Posts
-                             .Select(p => new PostDTO(p.Id, p.Title, p.Author.Name))
+                             .Select(p => new PostDTO { Id = p.Id, Title = p.Title, Author = p.Author.Name })
                              .ToArrayAsync(cancellationToken);
     }
 
-    public async Task<PostDetailDTO> GetPost(int id, CancellationToken cancellationToken)
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<PostDTO> GetPost(int id, CancellationToken cancellationToken)
     {
         var post = await _context.Posts
             .Include(p => p.Author)
@@ -36,25 +39,27 @@ public class PostService : IPostService
         if (post == null)
             throw new NotFoundException();
 
-        return new PostDetailDTO(
-            post.Title,
-            post.Author.Name,
-            post.Content,
-            post.Comments.Select(c => new CommentDTO(c.Content, c.Author.Name)).ToArray());
-        ;
+        return new PostDTO
+            {
+                Id = id,
+                Title = post.Title,
+                Author = post.Author.Name,
+                Content = post.Content,
+                Comments = post.Comments.Select(c => new CommentDTO(c.Content, c.Author.Name)).ToArray()
+            };
     }
 
-    public async Task CreatePost(CreatePost createPost, CancellationToken cancellationToken)
+    public async Task CreatePost(PostDTO postDTO, CancellationToken cancellationToken)
     {
-        var author = await _context.Users.FirstOrDefaultAsync(x => x.Name == createPost.Author, cancellationToken);
+        var author = await _context.Users.FirstOrDefaultAsync(x => x.Name == postDTO.Author, cancellationToken);
         if (author == null)
             throw new NotFoundException();
 
         var post = new Post
         {
             Author = author,
-            Title = createPost.Title,
-            Content = createPost.Content,
+            Title = postDTO.Title,
+            Content = postDTO.Content,
         };
 
         _context.Posts.Add(post);

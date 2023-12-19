@@ -20,7 +20,6 @@ public class MeasurePerfMiddleware
             await _next(context);
         });
     }
-
 }
 
 public static class MeasurePerfMiddlewareExtensions

@@ -1,11 +1,9 @@
 ﻿using _1_Blog_CQRS_Less.Common;
-using _1_Blog_CQRS_Less.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace _1_Blog_CQRS_Less.Services;
 
-public class UserService : IUserService
+public class UserService
 {
     private readonly BlogContext _context;
     private readonly ILogger<UserService> _logger;
@@ -16,8 +14,22 @@ public class UserService : IUserService
         _logger = logger;
     }
 
+    public async Task<UserDTO[]> GetUsers(CancellationToken cancellationToken)
+    {
+        return await _context.Users.Select(u => new UserDTO(u.Id, u.Name)).ToArrayAsync(cancellationToken);
+    }
 
-    public async Task<int> CreateUser(CreateUser request, CancellationToken cancellationToken)
+    public async Task<UserDTO> GetUser(int id, CancellationToken cancellationToken)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken: cancellationToken);
+            
+            if(user == null)
+                throw new NotFoundException();
+
+            return new UserDTO(user.Id, user.Name);
+    }
+
+    public async Task<int> CreateUser(UserDTO request, CancellationToken cancellationToken)
     {
         var user = new User { Name = request.Name };
         await _context.Users.AddAsync(user, cancellationToken);

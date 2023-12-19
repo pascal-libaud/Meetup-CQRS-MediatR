@@ -1,6 +1,6 @@
-﻿using _0_HelloWorld.Todos;
-using _0_HelloWorld.Todos.Command;
-using _0_HelloWorld.Todos.Query;
+﻿using _0_HelloWorld.Commands;
+using _0_HelloWorld.Entities;
+using _0_HelloWorld.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

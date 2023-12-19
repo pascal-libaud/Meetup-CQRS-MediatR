@@ -1,3 +1,5 @@
+using _0_HelloWorld.Repositories;
+
 namespace _0_HelloWorld;
 
 public class Program
@@ -9,6 +11,8 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddSingleton<TodoRepository>();
 
         builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblyContaining<Program>());
 

@@ -1,6 +1,6 @@
 using _2_Blog_CQRS;
-using _2_Blog_CQRS.Commands.Posts;
-using _2_Blog_CQRS.Queries.Posts;
+using _2_Blog_CQRS.Domain.Posts.Commands;
+using _2_Blog_CQRS.Domain.Posts.Queries;
 using FluentValidation;
 
 namespace _3_Test;
