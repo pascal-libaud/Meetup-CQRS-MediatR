@@ -7,8 +7,3 @@ public interface IQuery<out T> : IRequest<T> { }
 public interface ICommand : IRequest { }
 
 public interface ICommand<out T> : IRequest<T> { }
-
-public interface IOrder
-{
-    int Order { get; }
-}
