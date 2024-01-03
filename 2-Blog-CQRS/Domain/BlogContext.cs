@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace _2_Blog_CQRS;
+namespace _2_Blog_CQRS.Domain;
 
 public class BlogContext : DbContext
 {

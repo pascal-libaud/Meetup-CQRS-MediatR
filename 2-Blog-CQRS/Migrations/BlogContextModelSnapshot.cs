@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using _2_Blog_CQRS;
+using _2_Blog_CQRS.Domain;
 
 #nullable disable
 

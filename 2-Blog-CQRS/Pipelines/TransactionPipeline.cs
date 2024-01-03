@@ -1,4 +1,5 @@
 ﻿using _2_Blog_CQRS.Common;
+using _2_Blog_CQRS.Domain;
 using MediatR;
 
 namespace _2_Blog_CQRS.Pipelines;

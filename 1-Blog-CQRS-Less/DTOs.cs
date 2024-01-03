@@ -20,6 +20,8 @@ public class PostDTO
     public required string Author { get; set; }
 
     public CommentDTO[]? Comments { get; set; }
+
+    public byte[]? Image { get; set; }
 }
 
 public record UserDTO(int Id, string Name);

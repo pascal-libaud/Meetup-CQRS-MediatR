@@ -1,4 +1,4 @@
-﻿using _2_Blog_CQRS.Events;
+﻿using _2_Blog_CQRS.Domain.Users.Events;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

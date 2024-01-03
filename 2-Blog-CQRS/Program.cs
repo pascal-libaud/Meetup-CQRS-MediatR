@@ -1,3 +1,4 @@
+using _2_Blog_CQRS.Domain;
 using _2_Blog_CQRS.Pipelines;
 using FluentValidation;
 using Microsoft.Data.Sqlite;

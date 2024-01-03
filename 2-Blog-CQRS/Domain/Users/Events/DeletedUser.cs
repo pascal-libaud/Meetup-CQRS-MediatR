@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace _2_Blog_CQRS.Events;
+namespace _2_Blog_CQRS.Domain.Users.Events;
 
 public record DeletedUser(int UserId) : INotification;
 

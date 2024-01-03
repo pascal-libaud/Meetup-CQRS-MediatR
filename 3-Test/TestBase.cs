@@ -1,4 +1,4 @@
-using _2_Blog_CQRS;
+using _2_Blog_CQRS.Domain;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -1,6 +1,5 @@
 ﻿using _1_Blog_CQRS_Less.Common;
 using _1_Blog_CQRS_Less.Helpers;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace _1_Blog_CQRS_Less.Services;
@@ -18,16 +17,14 @@ public class PostService
         _logger = logger;
     }
 
-    [HttpGet]
     public async Task<PostDTO[]> GetPosts(CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Get posts");
         return await _context.Posts
                              .Select(p => new PostDTO { Id = p.Id, Title = p.Title, Author = p.Author.Name })
                              .ToArrayAsync(cancellationToken);
     }
 
-    [HttpGet]
-    [Route("{id}")]
     public async Task<PostDTO> GetPost(int id, CancellationToken cancellationToken)
     {
         var post = await _context.Posts

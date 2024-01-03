@@ -1,4 +1,4 @@
-using _2_Blog_CQRS;
+using _2_Blog_CQRS.Domain;
 using _2_Blog_CQRS.Domain.Users.Commands;
 using Microsoft.EntityFrameworkCore;
 
