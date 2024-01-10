@@ -18,6 +18,8 @@ public class Program
         builder.Services.AddMemoryCache();
 
         // MediatR configuration
+        //builder.Services.AddMediatR(configuration => { configuration.RegisterServicesFromAssemblyContaining<Program>(); });
+
         builder.Services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssemblyContaining<Program>();
