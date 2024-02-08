@@ -7,3 +7,5 @@ public record PostDetailDTO(string Title, string Author, string Content, Comment
 public record CommentDTO(string Content, string Author);
 
 public record UserDTO(int Id, string Name);
+
+public record UserDetailDTO(int Id, string Name, PostDTO[] Posts);

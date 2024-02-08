@@ -1,4 +1,5 @@
 using _2_Blog_CQRS.Domain.Users.Commands;
+using _2_Blog_CQRS.Domain.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,20 @@ public class UserController : ControllerBase
     public UserController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+
+    [HttpGet]
+    [Route("{allUsers}")]
+    public Task<UserDTO[]> GetUsers(bool allUsers)
+    {
+        return _mediator.Send<UserDTO[]>(allUsers ? new GetAllUsers() : new GetActiveUsers());
+    }
+
+    [HttpGet]
+    [Route("{id}")]
+    public Task<UserDetailDTO> GetUser(int id)
+    {
+        return _mediator.Send(new GetDetailedUser(id));
     }
 
     [HttpPost]

@@ -18,14 +18,12 @@ public class Program
         builder.Services.AddMemoryCache();
 
         // MediatR configuration
-        //builder.Services.AddMediatR(configuration => { configuration.RegisterServicesFromAssemblyContaining<Program>(); });
-
         builder.Services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssemblyContaining<Program>();
             configuration.Lifetime = ServiceLifetime.Transient;
 
-            configuration.NotificationPublisherType = typeof(MyNotificationPublisher);
+            configuration.NotificationPublisher = new MyNotificationPublisher();
 
             configuration.AddOpenBehavior(typeof(PerformancePipeline<,>));
             configuration.AddOpenBehavior(typeof(MemoryCachePipeline<,>));

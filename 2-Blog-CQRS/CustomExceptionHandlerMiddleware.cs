@@ -21,23 +21,18 @@ public class CustomExceptionHandlerMiddleware
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(context, ex);
+            while (ex is AggregateException && ex.InnerException is not null)
+                ex = ex.InnerException;
+
+            context.Response.StatusCode = ex switch
+            {
+                ValidationException _ => (int)HttpStatusCode.BadRequest,
+                NotFoundException _ => (int)HttpStatusCode.NotFound,
+                _ => (int)HttpStatusCode.InternalServerError
+            };
+
+            await context.Response.WriteAsync(ex.Message);
         }
-    }
-
-    private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
-    {
-        while (exception is AggregateException && exception.InnerException is not null)
-            exception = exception.InnerException;
-
-        context.Response.StatusCode = exception switch
-        {
-            ValidationException _ => (int)HttpStatusCode.BadRequest,
-            NotFoundException _ => (int)HttpStatusCode.NotFound,
-            _ => (int)HttpStatusCode.InternalServerError
-        };
-
-        await context.Response.WriteAsync(exception.Message);
     }
 }
 

@@ -37,13 +37,13 @@ public class PostService
             throw new NotFoundException();
 
         return new PostDTO
-            {
-                Id = id,
-                Title = post.Title,
-                Author = post.Author.Name,
-                Content = post.Content,
-                Comments = post.Comments.Select(c => new CommentDTO(c.Content, c.Author.Name)).ToArray()
-            };
+        {
+            Id = id,
+            Title = post.Title,
+            Author = post.Author.Name,
+            Content = post.Content,
+            Comments = post.Comments.Select(c => new CommentDTO(c.Content, c.Author.Name)).ToArray()
+        };
     }
 
     public async Task CreatePost(PostDTO postDTO, CancellationToken cancellationToken)
@@ -65,6 +65,7 @@ public class PostService
 
     public async Task DeletePost(int id, CancellationToken cancellationToken)
     {
+        _perfHelper.MeasurePerformances(() => 0);
         await _context.Posts.Where(p => p.Id == id).ExecuteDeleteAsync(cancellationToken);
     }
 }
